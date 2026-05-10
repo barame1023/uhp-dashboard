@@ -451,7 +451,7 @@ cursor:pointer;transition:all .15s;user-select:none;letter-spacing:.01em;
 .rec-tag:hover{opacity:.7}
 .rec-tag-add-wrap{position:relative;display:inline-block}
 .rec-tag-add{
-padding:2px 8px;border-radius:7px;font-size:13px;font-weight:400;cursor:pointer;
+padding:2px 8px;border-radius:6px;font-size:9px;font-weight:400;cursor:pointer;
 background:rgba(255,255,255,.06);border:1px dashed var(--bdr2);color:var(--t3);transition:all .15s;
 }
 .rec-tag-add:hover{border-color:var(--acc);color:var(--acc);background:rgba(99,140,255,.1)}
@@ -667,7 +667,7 @@ body{font-size:13px}
 .cd .dn{font-size:12px}
 .cd .dv{font-size:15px}
 .cd .dq{font-size:9px}
-th{font-size:9px}
+th{font-size:12px}
 td{font-size:13px}
 .ftab{font-size:11px}
 .tg{font-size:11px}
@@ -1297,7 +1297,7 @@ input::placeholder{color:#3A4560}
  <th class="r" style="min-width:60px">투입(h)</th>
  <th class="r" style="min-width:80px">출고(Pcs)</th>
  <th class="r" style="min-width:65px">UHP</th>
- <th style="min-width:140px">태그 <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px">클릭하여 제거 · + 태그로 추가</span></th>
+ <th style="min-width:140px">태그</th>
  <th style="min-width:200px">직원별(h)</th>
  <th style="min-width:80px"></th>
  </tr></thead>
@@ -1476,14 +1476,14 @@ const DOW_KO=['일','월','화','수','목','금','토'];
 const PERIOD_START='2026-04-27', PERIOD_END='2026-05-22';
 
 const DEFAULT_TAGS=[
-  {id:'event',    label:'행사/이벤트', color:'#6D28D9'},
-  {id:'short',    label:'단기 투입',   color:'#B91C1C'},
-  {id:'gi_full',  label:'입고 있음',   color:'#0E7490'},
-  {id:'gi_none',  label:'입고 없음',   color:'#047857'},
-  {id:'holiday',  label:'연휴 누적',   color:'#B45309'},
-  {id:'b2b',      label:'B2B 병행',    color:'#9D174D'},
-  {id:'fullstaff',label:'전원 출근',   color:'#3F6212'},
-  {id:'absent',   label:'결근/조퇴',   color:'#6B7280'},
+  {id:'event',    label:'행사/이벤트', color:'#7C88F0'},  // 소프트 인디고
+  {id:'short',    label:'단기 투입',   color:'#E07979'},  // 소프트 레드
+  {id:'gi_full',  label:'입고 있음',   color:'#5EADC8'},  // 소프트 틸
+  {id:'gi_none',  label:'입고 없음',   color:'#5BAD8A'},  // 소프트 그린
+  {id:'holiday',  label:'연휴 누적',   color:'#C4956A'},  // 소프트 탄
+  {id:'b2b',      label:'B2B 병행',    color:'#B07EA8'},  // 소프트 모브
+  {id:'fullstaff',label:'전원 출근',   color:'#6FAABC'},  // 소프트 스카이
+  {id:'absent',   label:'결근/조퇴',   color:'#8A96B4'},  // 소프트 슬레이트
 ];
 const DEFAULT_STAFF=[
   {name:'팀장',       part:'출고 · 배분 조율'},
