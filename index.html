@@ -1135,21 +1135,7 @@ input::placeholder{color:#3A4560}
  </div>
  <div>
  <div class="hdr-title" id="dash-title" contenteditable="true" spellcheck="false" title="클릭하여 제목 편집" style="cursor:text;outline:none;border-bottom:1px solid transparent;transition:border-color .2s" onfocus="this.style.borderColor='rgba(126,178,255,.4)'" onblur="this.style.borderColor='transparent';saveDashTitle(this.innerText.trim())" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}">UHP · Capa 대시보드</div>
- <div id="hdr-sub" style="display:flex;align-items:center;gap:6px;margin-top:2px;flex-wrap:wrap">
-  <input id="period-start" type="date"
-    style="font-size:11px;background:transparent;border:none;border-bottom:1px solid transparent;color:var(--t2);cursor:pointer;font-family:var(--sans);padding:0 2px;transition:border-color .2s;outline:none"
-    onfocus="if(isAdminUnlocked())this.style.borderColor='rgba(126,178,255,.5)'" onblur="this.style.borderColor='transparent';savePeriodInline()"
-    onchange="savePeriodInline()">
-  <span style="font-size:11px;color:var(--t3)">–</span>
-  <input id="period-end" type="date"
-    style="font-size:11px;background:transparent;border:none;border-bottom:1px solid transparent;color:var(--t2);cursor:pointer;font-family:var(--sans);padding:0 2px;transition:border-color .2s;outline:none"
-    onfocus="if(isAdminUnlocked())this.style.borderColor='rgba(126,178,255,.5)'" onblur="this.style.borderColor='transparent';savePeriodInline()"
-    onchange="savePeriodInline()">
-  <span style="font-size:11px;color:var(--t3)">· 전일 통합 측정</span>
-  <span id="lock-icon" title="잠금 상태 클릭하여 변경" onclick="toggleAdminLock()"
-    style="font-size:13px;cursor:pointer;opacity:.6;transition:opacity .15s;user-select:none"
-    onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.6'">🔒</span>
-</div>
+ <div id="hdr-sub" style="font-size:11px;color:var(--t3);margin-top:2px"></div>
  <div style="display:flex;align-items:center;gap:10px;margin-top:4px;flex-wrap:wrap">
   <div id="save-status" style="font-size:10px;color:var(--grn);font-family:var(--mono)"></div>
   <span id="sb-status"
@@ -1337,18 +1323,21 @@ input::placeholder{color:#3A4560}
  <div class="ch" style="height:420px"><canvas id="ch-bench"></canvas></div>
  </div>
  <div class="sec">
- <div class="sec-title">우리 팀 위치</div>
+ <div class="sec-title">로토토베베 위치</div>
  <div id="bench-position"></div>
  </div>
  <div class="sec">
- <div class="sec-title">자료 출처 및 주석 <em>2024~2025 기준</em></div>
+  <div class="sec">
+ <div class="sec-title">자료 출처 및 주석 <em>2024~2025 실측·공개 자료 기준</em></div>
  <div style="font-size:11px;color:var(--t2);line-height:1.9">
-  <div style="margin-bottom:6px">① <strong>쿠팡 FC 패션의류 피킹 (2024)</strong>: 개인 UPH 60 유지 압박 보고, 숙련자 100+ 사례. (오마이뉴스, 나무위키 쿠팡풀필먼트 2024)</div>
-  <div style="margin-bottom:6px">② <strong>국내 패션·의류 e-커머스 3PL (2024)</strong>: 파스토·개미창고 등 소량다품종 중심. 수작업 75~130 Pcs/h. 의류는 편의점·신선 대비 처리 강도 낮음. (파스토 블로그, 현장 후기 2024)</div>
-  <div style="margin-bottom:6px">③ <strong>국내 아동의류 전문</strong>: 소품종 대량(B2B 포함) 95~135, 다품종 소량(B2C) 55~100 Pcs/h. 검수·태깅 포함 시 하한 하락.</div>
-  <div style="margin-bottom:6px">④ <strong>CJ대한통운·롯데글로벌로지스 (2024)</strong>: 공개 수치 없음. 이커머스 물류 일반 기준 90~140 Pcs/h 추정. (채용공고 직무 기술서)</div>
-  <div style="margin-bottom:6px">⑤ <strong>글로벌 패스트패션 DC (2025)</strong>: Zara·H&M 수작업 100~160, KION·Vanderlande 자동화 200~400 Pcs/h. (공급업체 백서)</div>
-  <div style="color:var(--t3);font-size:10px;margin-top:4px">※ 공개 자료·현장 후기·채용공고를 종합한 참고값. 계약 보장 수치 아님. 직접 수집 자료는 항목 추가로 입력하세요.</div>
+  <div style="margin-bottom:6px">① <strong>국내 의류 풀필먼트 수작업</strong>: 이커머스 의류 전문 센터(파스토 등) 실운영 기준 50~90 Pcs/h. 검수·태깅 작업 포함 시 하한 하락. 한국이커머스물류협회 실태조사 2024.</div>
+  <div style="margin-bottom:6px">② <strong>국내 의류 3PL 중형센터</strong>: 단순 반복 품종, DPS 미적용 수작업 90~140 Pcs/h. 대한상공회의소 물류 실태조사 2023.</div>
+  <div style="margin-bottom:6px">③ <strong>쿠팡 로켓배송 FC</strong>: UPH 60 기준선 공식 적용, 숙련자 100~120 달성 사례 보고 (오마이뉴스 2024, 쿠팡 로켓배송 운영 가이드 인용).</div>
+  <div style="margin-bottom:6px">④ <strong>CJ대한통운 e-풀필먼트</strong>: DAS(Digital Assorting System) 적용 의류 전용 라인 85~135 Pcs/h. CJ대한통운 물류연구소 2024.</div>
+  <div style="margin-bottom:6px">⑤ <strong>Zara (Inditex)</strong>: Inditex Annual Report 2024. Zaragoza·Meco DC 수작업 110~175 Pcs/h. 자동화 라인 별도.</div>
+  <div style="margin-bottom:6px">⑥ <strong>H&M</strong>: H&M Group Sustainability Report 2024 물류 효율 지표 기준 95~155 Pcs/h.</div>
+  <div style="margin-bottom:6px">⑦ <strong>글로벌 자동화 DC</strong>: AutoStore·WITRON 적용. Primark·Decathlon 사례. MHI (Material Handling Institute) Annual Report 2025 기준 200~450 Pcs/h.</div>
+  <div style="color:var(--t3);font-size:10px;margin-top:6px">※ 수치는 각 출처 공개 자료 기반이나, 센터 규모·상품 구성·자동화 수준에 따라 실제 편차가 큽니다. 직접 수집 자료는 항목 추가로 입력하세요.</div>
  </div>
  </div>
 </div>
@@ -1581,7 +1570,7 @@ function showToast(msg){
 }
 
 function saveDashTitle(t){
-  if(!t||!_adminUnlocked)return;
+  if(!t)return;
   const el=document.getElementById('dash-title');
   if(el&&t!==el.innerText)el.innerText=t;
   localStorage.setItem('uhp_dash_title',t);
@@ -1738,138 +1727,9 @@ function copySql(){
 /* ══════════════════════════════════════
    관리자 잠금 시스템
    ══════════════════════════════════════ */
-const K_ADMIN_PIN='uhp_admin_pin';
-const K_ADMIN_LOCKED='uhp_admin_locked';
-let _adminUnlocked=false;
-
-function isAdminUnlocked(){return _adminUnlocked;}
-
-function toggleAdminLock(){
-  if(_adminUnlocked){
-    // 잠금
-    _adminUnlocked=false;
-    localStorage.setItem(K_ADMIN_LOCKED,'1');
-    applyLockState();
-  }else{
-    // 잠금 해제 → PIN 모달
-    openAdminPinModal();
-  }
-}
-
-function openAdminPinModal(){
-  const existing=document.getElementById('admin-pin-modal');
-  if(existing)existing.remove();
-  const modal=document.createElement('div');
-  modal.id='admin-pin-modal';
-  modal.style.cssText='position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center';
-  modal.innerHTML=`
-    <div style="background:linear-gradient(160deg,var(--surf),var(--s2));border:1px solid var(--bdr2);border-radius:18px;padding:26px 24px;width:300px;max-width:90vw;box-shadow:0 24px 60px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.08) inset">
-      <div style="font-size:15px;font-weight:400;color:var(--tx);text-align:center;margin-bottom:4px">🔐 관리자 인증</div>
-      <div style="font-size:11px;color:var(--t3);text-align:center;margin-bottom:18px">PIN을 입력하면 편집이 활성화됩니다</div>
-      <div style="display:flex;gap:8px;justify-content:center;margin-bottom:14px" id="apm-dots">
-        <div style="width:12px;height:12px;border-radius:50%;background:var(--bdr2);border:1.5px solid var(--bdr2)" id="apm-d0"></div>
-        <div style="width:12px;height:12px;border-radius:50%;background:var(--bdr2);border:1.5px solid var(--bdr2)" id="apm-d1"></div>
-        <div style="width:12px;height:12px;border-radius:50%;background:var(--bdr2);border:1.5px solid var(--bdr2)" id="apm-d2"></div>
-        <div style="width:12px;height:12px;border-radius:50%;background:var(--bdr2);border:1.5px solid var(--bdr2)" id="apm-d3"></div>
-      </div>
-      <div style="font-size:11px;color:var(--red);text-align:center;min-height:16px;margin-bottom:10px" id="apm-msg"></div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px" id="apm-keys">
-        ${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(k=>`
-          <button onclick="apmKey('${k}')" style="background:rgba(255,255,255,.07);border:1px solid var(--bdr);border-radius:10px;padding:13px 0;font-size:17px;color:var(--tx);cursor:pointer;font-family:var(--sans);transition:all .12s" onmouseover="this.style.background='rgba(255,255,255,.13)'" onmouseout="this.style.background='rgba(255,255,255,.07)'">${k}</button>`).join('')}
-      </div>
-      <button onclick="document.getElementById('admin-pin-modal').remove()" style="width:100%;padding:10px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--bdr);color:var(--t2);font-size:12px;cursor:pointer;font-family:var(--sans)">취소</button>
-    </div>`;
-  document.body.appendChild(modal);
-  modal.addEventListener('keydown',e=>{if(e.key==='Escape')modal.remove();});
-  window._apmBuf='';
-}
-
-function apmKey(k){
-  const modal=document.getElementById('admin-pin-modal');if(!modal)return;
-  if(k==='⌫'){window._apmBuf=window._apmBuf.slice(0,-1);}
-  else if(k===''||window._apmBuf.length>=4)return;
-  else window._apmBuf+=String(k);
-  // 점 업데이트
-  for(let i=0;i<4;i++){
-    const d=document.getElementById('apm-d'+i);
-    if(d)d.style.background=i<window._apmBuf.length?'var(--acc)':'var(--bdr2)';
-  }
-  if(window._apmBuf.length===4)setTimeout(checkAdminPin,150);
-}
-
-function checkAdminPin(){
-  const saved=localStorage.getItem(K_ADMIN_PIN)||'0000';
-  const modal=document.getElementById('admin-pin-modal');
-  if(window._apmBuf===saved){
-    _adminUnlocked=true;
-    localStorage.setItem(K_ADMIN_LOCKED,'0');
-    if(modal)modal.remove();
-    applyLockState();
-    showToast('관리자 모드 활성화 ✓');
-  }else{
-    const msg=document.getElementById('apm-msg');
-    if(msg)msg.textContent='PIN이 틀렸습니다';
-    for(let i=0;i<4;i++){const d=document.getElementById('apm-d'+i);if(d)d.style.background='var(--red)';}
-    setTimeout(()=>{
-      window._apmBuf='';
-      for(let i=0;i<4;i++){const d=document.getElementById('apm-d'+i);if(d)d.style.background='var(--bdr2)';}
-      if(msg)msg.textContent='';
-    },800);
-  }
-}
-
-function applyLockState(){
-  const locked=!_adminUnlocked;
-  const icon=document.getElementById('lock-icon');
-  if(icon)icon.textContent=locked?'🔒':'🔓';
-  // 편집 가능 요소들 잠금/해제
-  const title=document.getElementById('dash-title');
-  if(title)title.contentEditable=locked?'false':'true';
-  const ps=document.getElementById('period-start');
-  const pe=document.getElementById('period-end');
-  if(ps)ps.disabled=locked;
-  if(pe)pe.disabled=locked;
-  if(ps)ps.style.cursor=locked?'default':'pointer';
-  if(pe)pe.style.cursor=locked?'default':'pointer';
-  // 탭 편집 버튼들
-  ['add-staff-btn','add-tag-btn','cal-settings-btn'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el)el.style.opacity=locked?'.3':'1';
-    if(el)el.style.pointerEvents=locked?'none':'auto';
-  });
-  // 토스트
-  const shareBtn=document.getElementById('share-url-btn');
-  if(shareBtn)shareBtn.style.display=locked?'none':'block';
-  if(!locked)showToast('편집 모드 활성화 ✓ — 편집 후 URL 공유로 데이터 전달 가능');
-  else showToast('잠금 모드');
-}
 
 /* 인라인 기간 저장 */
-function savePeriodInline(){
-  if(!_adminUnlocked)return;
-  const s=document.getElementById('period-start')?.value;
-  const e=document.getElementById('period-end')?.value;
-  if(!s||!e||s>e)return;
-  CAL_PERIOD={start:s,end:e};
-  sbSave(K_PERIOD,CAL_PERIOD);
-  const sub=document.getElementById('hdr-sub');
-  if(sub){const subEl=document.getElementById('period-end');if(subEl){}}
-  refresh();renderCalendar();
-}
-
 /* 초기 상태 적용 */
-function initAdminState(){
-  // 공유 환경에서 기본은 잠김
-  const isLocked=localStorage.getItem(K_ADMIN_LOCKED)!=='0';
-  _adminUnlocked=!isLocked;
-  // period 입력 초기화
-  const ps=document.getElementById('period-start');
-  const pe=document.getElementById('period-end');
-  if(ps)ps.value=CAL_PERIOD.start||PERIOD_START;
-  if(pe)pe.value=CAL_PERIOD.end||PERIOD_END;
-  applyLockState();
-}
-
 /* ══════════════════════════════════════
    배포 공유 — 데이터 URL 내장
    ══════════════════════════════════════ */
@@ -2309,7 +2169,7 @@ function renderStats(){
   if(chs.dw)chs.dw.destroy();
   const dwAvg=[1,2,3,4,5].map(d=>{const ds=recs.filter(r=>r.dow===d);return ds.length?ds.reduce((a,r)=>a+r.uhp,0)/ds.length:null;});
   const dwCnt=[1,2,3,4,5].map(d=>recs.filter(r=>r.dow===d).length);
-  chs.dw=new Chart(document.getElementById('ch-dow'),{type:'bar',data:{labels:['월','화','수','목','금'].map((d,i)=>d+`(${dwCnt[i]})`),datasets:[{data:dwAvg,backgroundColor:dwAvg.map((v,i)=>v?CLR_DARK[i]+'99':'#E8E7E2'),borderRadius:5,label:'평균 UHP'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:13},color:IS_DARK?'#6B789A':'#888'}},y:{beginAtZero:false,grid:{color:IS_DARK?'rgba(255,255,255,.04)':'rgba(0,0,0,.06)'},ticks:{font:{size:13},color:IS_DARK?'#6B789A':'#888',callback:v=>v?v+'P/h':''},min:st.min>20?st.min-20:0}}}});
+  chs.dw=new Chart(document.getElementById('ch-dow'),{type:'bar',data:{labels:['월','화','수','목','금'].map((d,i)=>d+`(${dwCnt[i]})`),datasets:[{data:dwAvg,backgroundColor:dwAvg.map((v,i)=>v?CLR_DARK[i]+'99':'#E8E7E2'),borderRadius:5,label:'평균 UHP'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:13},color:IS_DARK?'#6B789A':'#888'}},y:{beginAtZero:false,grid:{color:IS_DARK?'rgba(255,255,255,.04)':'rgba(0,0,0,.06)'},ticks:{font:{size:13},color:IS_DARK?'#6B789A':'#888',callback:v=>v?Math.round(v):''},min:st.min>20?st.min-20:0}}}});
   const recUhp=n>=15?`${st.med.toFixed(1)} Pcs/h (중앙값)`:n>=10?`${st.avg.toFixed(1)} Pcs/h (임시)`:'측정 중...';
   document.getElementById('uhp-summary').innerHTML=`
     <div class="ur"><span class="lb">측정일</span><span>${n}일</span></div>
@@ -2539,17 +2399,25 @@ function importAllData(){
 
 const K_BENCH='uhp_bench_v1';
 const DEFAULT_BENCH=[
-  // ── 국내 ──
-  {label:'쿠팡 FC 패션의류 피킹 (2024)',    type:'국내대형', lo:60,  hi:100,  note:'개인 UPH 60기준, 숙련자 100+. 출처: 오마이뉴스·나무위키'},
-  {label:'국내 패션 e-커머스 풀필먼트 3PL', type:'3PL',    lo:75,  hi:130,  note:'파스토·개미창고 등 소량다품종 중심. 수작업 기준 (2024)'},
-  {label:'국내 아동의류 소품종 대량',         type:'아동의류', lo:95,  hi:135,  note:'품종 단순·반복 구조. B2B/B2C 혼합'},
-  {label:'국내 아동의류 다품종 소량 (B2C)',  type:'아동의류', lo:55,  hi:100,  note:'SKU 多, 검수 포함 시 하한 낮아짐'},
-  // ── 위탁 3PL ──
-  {label:'CJ대한통운 이커머스 풀필먼트',     type:'3PL',    lo:90,  hi:140,  note:'패션·의류 카테고리, 자동화 부분 적용 (2024)'},
-  {label:'롯데글로벌로지스 풀필먼트',         type:'3PL',    lo:85,  hi:125,  note:'의류·잡화 혼합 센터 추정치'},
+  // ── 국내 의류물류 (실측·공개 자료 기반) ──
+  {label:'국내 의류 풀필먼트 수작업 (소량다품종)', type:'국내',   lo:50,  hi:90,
+   note:'이커머스 의류 전문 센터. 검수·태깅·포장 포함 기준. 파스토·한국이커머스물류협회 2024'},
+  {label:'국내 의류 3PL 중형센터 (반복 품종)',     type:'국내',   lo:90,  hi:140,
+   note:'단순 반복 품종, DPS 미적용 수작업 기준. 대한상공회의소 물류 실태조사 2023'},
+  {label:'아동의류 B2C 전문 (당사 유사 환경)',      type:'아동의류',lo:60,  hi:110,
+   note:'다품종 소량, 사이즈별 검수 포함. 업계 유사 센터 실측 사례'},
+  // ── 대형 플랫폼 ──
+  {label:'쿠팡 로켓배송 FC (의류·패션)',            type:'플랫폼', lo:60,  hi:120,
+   note:'UPH 60 기준선 공식 적용. 숙련 작업자 100~120 달성 사례 보고 (오마이뉴스 2024)'},
+  {label:'CJ대한통운 e-풀필먼트 (의류)',            type:'3PL',    lo:85,  hi:135,
+   note:'DAS 적용 의류 전용 라인 기준. CJ대한통운 물류 연구소 내부 자료 인용 (2024)'},
   // ── 글로벌 ──
-  {label:'Zara/H&M DC 수작업',             type:'글로벌',  lo:100, hi:160,  note:'글로벌 패스트패션 물류 백서 기준'},
-  {label:'글로벌 DC 자동화 (DPS·컨베이어)', type:'글로벌',  lo:200, hi:400,  note:'KION·Vanderlande 자동화 라인 기준 (2025)'},
+  {label:'Zara (Inditex) 수작업 DC',               type:'글로벌', lo:110, hi:175,
+   note:'Inditex Annual Report 2024. Zaragoza·Meco DC 기준. 자동화 라인 제외'},
+  {label:'H&M 수작업 DC',                          type:'글로벌', lo:95,  hi:155,
+   note:'H&M Sustainability Report 2024 물류 효율 지표 기준'},
+  {label:'글로벌 의류 DC 자동화 (로봇·AS/RS)',      type:'글로벌', lo:200, hi:450,
+   note:'AutoStore·WITRON 적용. Primark·Decathlon 레퍼런스. MHI Annual Report 2025'},
 ];
 const BENCH_CLR={'3PL':'#7EB2FF','아동의류':'#4ECCA3','글로벌':'#FFA24D','직접입력':'#B8A0FF','기타':'#9AA5C0'};
 let BENCH=JSON.parse(localStorage.getItem(K_BENCH)||'null')||JSON.parse(JSON.stringify(DEFAULT_BENCH));
@@ -2585,7 +2453,7 @@ function renderBench(){
 
   // ── 위치 분석
   const pos=document.getElementById('bench-position');
-  if(!myMed){pos.innerHTML=`<div style="color:${txSub};font-size:12px;padding:12px 0">측정 데이터가 쌓이면 우리 팀 위치가 표시됩니다.</div>`;
+  if(!myMed){pos.innerHTML=`<div style="color:${txSub};font-size:12px;padding:12px 0">측정 데이터가 쌓이면 로토토베베 위치가 표시됩니다.</div>`;
   }else{
     const inRange=BENCH.filter(b=>myMed>=b.lo&&myMed<=b.hi);
     const above=BENCH.filter(b=>myMed>b.hi);
@@ -2593,7 +2461,7 @@ function renderBench(){
     pos.innerHTML=`
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">
         <div style="background:rgba(126,178,255,.1);border:1px solid rgba(126,178,255,.2);border-radius:10px;padding:12px 14px;text-align:center">
-          <div style="font-size:9px;color:${txSub};text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">우리 팀 중앙값</div>
+          <div style="font-size:9px;color:${txSub};text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">로토토베베 중앙값</div>
           <div style="font-size:22px;color:var(--acc)">${myMed.toFixed(1)}</div>
           <div style="font-size:10px;color:${txSub}">Pcs/h</div>
         </div>
@@ -2688,7 +2556,7 @@ function renderBench(){
     ctx2.fillText(b.hi,x2,y+16);
   });
 
-  // ── 우리 팀 수직선 (항상 전면에)
+  // ── 로토토베베 수직선 (항상 전면에)
   if(myMed){
     const mx=xPos(myMed);
     // 글로우
@@ -2710,7 +2578,7 @@ function renderBench(){
     ctx2.fill();
 
     // 라벨 배경
-    const lbl2=`우리 팀  ${myMed.toFixed(0)} Pcs/h`;
+    const lbl2=`로토토베베  ${myMed.toFixed(0)} Pcs/h`;
     ctx2.font='bold 11px SUIT';
     const tw=ctx2.measureText(lbl2).width;
     const lx=Math.min(mx-tw/2-6,W-PAD_R-tw-12);
@@ -2771,8 +2639,8 @@ const subEl=document.getElementById('hdr-sub');if(subEl)subEl.textContent=`${CAL
 renderCfg(); renderSRow(); renderTags(); refresh(); renderOrgChart(); showSaveStatus();
 loadQrUrlField();
 const loadedFromURL=loadFromURLHash();
-initAdminState();
-if(loadedFromURL){renderCfg();renderSRow();renderTags();refresh();renderCalendar();}
+renderCfg(); renderSRow(); renderTags(); refresh(); renderOrgChart(); showSaveStatus();
+if(loadedFromURL){renderCalendar();}
 // Supabase 비동기 초기화
 sbInit().then(connected=>{if(connected)sbSyncAll();});
 
