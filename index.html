@@ -1501,7 +1501,15 @@ const DEFAULT_STAFF=[
   if(!localStorage.getItem(K_TAGS)){for(const k of old.tags){const v=localStorage.getItem(k);if(v){localStorage.setItem(K_TAGS,v);break;}}}
 })();
 
-let TAGS   = JSON.parse(localStorage.getItem(K_TAGS)||'null') || DEFAULT_TAGS;
+let TAGS = (()=>{
+  const saved = JSON.parse(localStorage.getItem(K_TAGS)||'null');
+  if(!saved) return DEFAULT_TAGS;
+  // 저장된 태그가 있어도 기본 태그의 color는 DEFAULT_TAGS 기준으로 최신화
+  return saved.map(t=>{
+    const def = DEFAULT_TAGS.find(d=>d.id===t.id);
+    return def ? {...t, color: def.color, label: def.label} : t;
+  });
+})();
 let STAFF  = JSON.parse(localStorage.getItem(K_NM)  ||'null') || DEFAULT_STAFF;
 if(STAFF.length && typeof STAFF[0]==='string') STAFF = STAFF.map(n=>({name:n,part:'',tasks:''}));
 let HOLIDAYS  = JSON.parse(localStorage.getItem(K_HOLIDAYS)||'["2026-05-05"]');
