@@ -1135,7 +1135,21 @@ input::placeholder{color:#3A4560}
  </div>
  <div>
  <div class="hdr-title" id="dash-title" contenteditable="true" spellcheck="false" title="클릭하여 제목 편집" style="cursor:text;outline:none;border-bottom:1px solid transparent;transition:border-color .2s" onfocus="this.style.borderColor='rgba(126,178,255,.4)'" onblur="this.style.borderColor='transparent';saveDashTitle(this.innerText.trim())" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}">UHP · Capa 대시보드</div>
- <div class="hdr-sub" id="hdr-sub" style="font-size:12px">2026.04.27–05.22 · 전일 통합 측정</div>
+ <div id="hdr-sub" style="display:flex;align-items:center;gap:6px;margin-top:2px;flex-wrap:wrap">
+  <input id="period-start" type="date"
+    style="font-size:11px;background:transparent;border:none;border-bottom:1px solid transparent;color:var(--t2);cursor:pointer;font-family:var(--sans);padding:0 2px;transition:border-color .2s;outline:none"
+    onfocus="if(isAdminUnlocked())this.style.borderColor='rgba(126,178,255,.5)'" onblur="this.style.borderColor='transparent';savePeriodInline()"
+    onchange="savePeriodInline()">
+  <span style="font-size:11px;color:var(--t3)">–</span>
+  <input id="period-end" type="date"
+    style="font-size:11px;background:transparent;border:none;border-bottom:1px solid transparent;color:var(--t2);cursor:pointer;font-family:var(--sans);padding:0 2px;transition:border-color .2s;outline:none"
+    onfocus="if(isAdminUnlocked())this.style.borderColor='rgba(126,178,255,.5)'" onblur="this.style.borderColor='transparent';savePeriodInline()"
+    onchange="savePeriodInline()">
+  <span style="font-size:11px;color:var(--t3)">· 전일 통합 측정</span>
+  <span id="lock-icon" title="잠금 상태 클릭하여 변경" onclick="toggleAdminLock()"
+    style="font-size:13px;cursor:pointer;opacity:.6;transition:opacity .15s;user-select:none"
+    onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.6'">🔒</span>
+</div>
  <div id="save-status" style="font-size:10px;color:var(--grn);margin-top:3px;font-family:var(--mono)"></div>
  </div>
  </div>
@@ -1554,7 +1568,7 @@ function showToast(msg){
 }
 
 function saveDashTitle(t){
-  if(!t)return;
+  if(!t||!_adminUnlocked)return;
   const el=document.getElementById('dash-title');
   if(el&&t!==el.innerText)el.innerText=t;
   localStorage.setItem('uhp_dash_title',t);
@@ -1706,6 +1720,186 @@ function clearSbConfig(){
 function copySql(){
   const sql=`create table if not exists uhp_records (\n  id text primary key,\n  data jsonb,\n  updated_at timestamptz default now()\n);\nalter table uhp_records enable row level security;\ncreate policy "public access" on uhp_records\n  for all using (true) with check (true);`;
   navigator.clipboard?.writeText(sql).then(()=>{document.getElementById('sql-copy-btn').textContent='✓ 복사됨';setTimeout(()=>document.getElementById('sql-copy-btn').textContent='복사',2000);});
+}
+
+/* ══════════════════════════════════════
+   관리자 잠금 시스템
+   ══════════════════════════════════════ */
+const K_ADMIN_PIN='uhp_admin_pin';
+const K_ADMIN_LOCKED='uhp_admin_locked';
+let _adminUnlocked=false;
+
+function isAdminUnlocked(){return _adminUnlocked;}
+
+function toggleAdminLock(){
+  if(_adminUnlocked){
+    // 잠금
+    _adminUnlocked=false;
+    localStorage.setItem(K_ADMIN_LOCKED,'1');
+    applyLockState();
+  }else{
+    // 잠금 해제 → PIN 모달
+    openAdminPinModal();
+  }
+}
+
+function openAdminPinModal(){
+  const existing=document.getElementById('admin-pin-modal');
+  if(existing)existing.remove();
+  const modal=document.createElement('div');
+  modal.id='admin-pin-modal';
+  modal.style.cssText='position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center';
+  modal.innerHTML=`
+    <div style="background:linear-gradient(160deg,var(--surf),var(--s2));border:1px solid var(--bdr2);border-radius:18px;padding:26px 24px;width:300px;max-width:90vw;box-shadow:0 24px 60px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.08) inset">
+      <div style="font-size:15px;font-weight:400;color:var(--tx);text-align:center;margin-bottom:4px">🔐 관리자 인증</div>
+      <div style="font-size:11px;color:var(--t3);text-align:center;margin-bottom:18px">PIN을 입력하면 편집이 활성화됩니다</div>
+      <div style="display:flex;gap:8px;justify-content:center;margin-bottom:14px" id="apm-dots">
+        <div style="width:12px;height:12px;border-radius:50%;background:var(--bdr2);border:1.5px solid var(--bdr2)" id="apm-d0"></div>
+        <div style="width:12px;height:12px;border-radius:50%;background:var(--bdr2);border:1.5px solid var(--bdr2)" id="apm-d1"></div>
+        <div style="width:12px;height:12px;border-radius:50%;background:var(--bdr2);border:1.5px solid var(--bdr2)" id="apm-d2"></div>
+        <div style="width:12px;height:12px;border-radius:50%;background:var(--bdr2);border:1.5px solid var(--bdr2)" id="apm-d3"></div>
+      </div>
+      <div style="font-size:11px;color:var(--red);text-align:center;min-height:16px;margin-bottom:10px" id="apm-msg"></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px" id="apm-keys">
+        ${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(k=>`
+          <button onclick="apmKey('${k}')" style="background:rgba(255,255,255,.07);border:1px solid var(--bdr);border-radius:10px;padding:13px 0;font-size:17px;color:var(--tx);cursor:pointer;font-family:var(--sans);transition:all .12s" onmouseover="this.style.background='rgba(255,255,255,.13)'" onmouseout="this.style.background='rgba(255,255,255,.07)'">${k}</button>`).join('')}
+      </div>
+      <button onclick="document.getElementById('admin-pin-modal').remove()" style="width:100%;padding:10px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--bdr);color:var(--t2);font-size:12px;cursor:pointer;font-family:var(--sans)">취소</button>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('keydown',e=>{if(e.key==='Escape')modal.remove();});
+  window._apmBuf='';
+}
+
+function apmKey(k){
+  const modal=document.getElementById('admin-pin-modal');if(!modal)return;
+  if(k==='⌫'){window._apmBuf=window._apmBuf.slice(0,-1);}
+  else if(k===''||window._apmBuf.length>=4)return;
+  else window._apmBuf+=String(k);
+  // 점 업데이트
+  for(let i=0;i<4;i++){
+    const d=document.getElementById('apm-d'+i);
+    if(d)d.style.background=i<window._apmBuf.length?'var(--acc)':'var(--bdr2)';
+  }
+  if(window._apmBuf.length===4)setTimeout(checkAdminPin,150);
+}
+
+function checkAdminPin(){
+  const saved=localStorage.getItem(K_ADMIN_PIN)||'0000';
+  const modal=document.getElementById('admin-pin-modal');
+  if(window._apmBuf===saved){
+    _adminUnlocked=true;
+    localStorage.setItem(K_ADMIN_LOCKED,'0');
+    if(modal)modal.remove();
+    applyLockState();
+    showToast('관리자 모드 활성화 ✓');
+  }else{
+    const msg=document.getElementById('apm-msg');
+    if(msg)msg.textContent='PIN이 틀렸습니다';
+    for(let i=0;i<4;i++){const d=document.getElementById('apm-d'+i);if(d)d.style.background='var(--red)';}
+    setTimeout(()=>{
+      window._apmBuf='';
+      for(let i=0;i<4;i++){const d=document.getElementById('apm-d'+i);if(d)d.style.background='var(--bdr2)';}
+      if(msg)msg.textContent='';
+    },800);
+  }
+}
+
+function applyLockState(){
+  const locked=!_adminUnlocked;
+  const icon=document.getElementById('lock-icon');
+  if(icon)icon.textContent=locked?'🔒':'🔓';
+  // 편집 가능 요소들 잠금/해제
+  const title=document.getElementById('dash-title');
+  if(title)title.contentEditable=locked?'false':'true';
+  const ps=document.getElementById('period-start');
+  const pe=document.getElementById('period-end');
+  if(ps)ps.disabled=locked;
+  if(pe)pe.disabled=locked;
+  if(ps)ps.style.cursor=locked?'default':'pointer';
+  if(pe)pe.style.cursor=locked?'default':'pointer';
+  // 탭 편집 버튼들
+  ['add-staff-btn','add-tag-btn','cal-settings-btn'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.style.opacity=locked?'.3':'1';
+    if(el)el.style.pointerEvents=locked?'none':'auto';
+  });
+  // 토스트
+  const shareBtn=document.getElementById('share-url-btn');
+  if(shareBtn)shareBtn.style.display=locked?'none':'block';
+  if(!locked)showToast('편집 모드 활성화 ✓ — 편집 후 URL 공유로 데이터 전달 가능');
+  else showToast('잠금 모드');
+}
+
+/* 인라인 기간 저장 */
+function savePeriodInline(){
+  if(!_adminUnlocked)return;
+  const s=document.getElementById('period-start')?.value;
+  const e=document.getElementById('period-end')?.value;
+  if(!s||!e||s>e)return;
+  CAL_PERIOD={start:s,end:e};
+  sbSave(K_PERIOD,CAL_PERIOD);
+  const sub=document.getElementById('hdr-sub');
+  if(sub){const subEl=document.getElementById('period-end');if(subEl){}}
+  refresh();renderCalendar();
+}
+
+/* 초기 상태 적용 */
+function initAdminState(){
+  // 공유 환경에서 기본은 잠김
+  const isLocked=localStorage.getItem(K_ADMIN_LOCKED)!=='0';
+  _adminUnlocked=!isLocked;
+  // period 입력 초기화
+  const ps=document.getElementById('period-start');
+  const pe=document.getElementById('period-end');
+  if(ps)ps.value=CAL_PERIOD.start||PERIOD_START;
+  if(pe)pe.value=CAL_PERIOD.end||PERIOD_END;
+  applyLockState();
+}
+
+/* ══════════════════════════════════════
+   배포 공유 — 데이터 URL 내장
+   ══════════════════════════════════════ */
+
+// 현재 데이터를 URL로 내보내기 (복사)
+function exportShareURL(){
+  const payload={
+    r:recs,
+    n:STAFF,
+    t:TAGS,
+    p:CAL_PERIOD,
+    h:HOLIDAYS,
+    v:1
+  };
+  try{
+    const json=JSON.stringify(payload);
+    const b64=btoa(encodeURIComponent(json));
+    const url=location.origin+location.pathname+'#data='+b64;
+    navigator.clipboard.writeText(url).then(()=>{
+      showToast('공유 URL이 복사됐습니다. 팀원에게 전달하세요.');
+    });
+  }catch(e){showToast('URL 생성 실패: 데이터가 너무 큽니다.');}
+}
+
+// 접속 시 URL hash 데이터 자동 로드
+function loadFromURLHash(){
+  const hash=location.hash;
+  if(!hash.startsWith('#data='))return false;
+  try{
+    const b64=hash.slice(6);
+    const json=decodeURIComponent(atob(b64));
+    const d=JSON.parse(json);
+    if(!d||d.v!==1)return false;
+    if(d.r&&Array.isArray(d.r)){recs=d.r;localStorage.setItem(K_REC,JSON.stringify(recs));}
+    if(d.n&&Array.isArray(d.n)){STAFF=d.n.map(s=>typeof s==='string'?{name:s,part:'',tasks:''}:s);localStorage.setItem(K_NM,JSON.stringify(STAFF));}
+    if(d.t&&Array.isArray(d.t)){TAGS=d.t;localStorage.setItem(K_TAGS,JSON.stringify(TAGS));}
+    if(d.p&&d.p.start){CAL_PERIOD=d.p;localStorage.setItem(K_PERIOD,JSON.stringify(CAL_PERIOD));}
+    if(d.h&&Array.isArray(d.h)){HOLIDAYS=d.h;localStorage.setItem(K_HOLIDAYS,JSON.stringify(HOLIDAYS));}
+    // hash 제거 (히스토리 교체)
+    history.replaceState(null,'',location.pathname+location.search);
+    showToast('공유 데이터가 로드됐습니다.');
+    return true;
+  }catch(e){console.warn('URL 데이터 로드 실패:',e);return false;}
 }
 function showSaveStatus(){
   const el=document.getElementById('save-status');
@@ -2563,6 +2757,9 @@ const savedTitle=localStorage.getItem('uhp_dash_title');if(savedTitle){const el=
 const subEl=document.getElementById('hdr-sub');if(subEl)subEl.textContent=`${CAL_PERIOD.start} – ${CAL_PERIOD.end} · 전일 통합 측정`;
 renderCfg(); renderSRow(); renderTags(); refresh(); renderOrgChart(); showSaveStatus();
 loadQrUrlField();
+const loadedFromURL=loadFromURLHash();
+initAdminState();
+if(loadedFromURL){renderCfg();renderSRow();renderTags();refresh();renderCalendar();}
 // Supabase 비동기 초기화
 sbInit().then(connected=>{if(connected)sbSyncAll();});
 
